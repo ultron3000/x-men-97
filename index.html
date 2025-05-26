@@ -167,6 +167,25 @@
     .cast-card:hover .cast-name {
       color: var(--marvel-yellow);
     }
+  
+/* Center video modal properly on all screen sizes */
+#playback-modal {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1rem;
+}
+
+#playback-modal .max-w-5xl {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+#playback-modal video {
+  max-height: 60vh;
+  object-fit: contain;
+}
+
   </style>
 </head>
 <body class="min-h-screen">
@@ -708,6 +727,20 @@
         modalVideo.pause();
       }
     });
+
+    
+    // Fullscreen button support
+    const fullscreenBtn = document.querySelector('.fa-expand').parentElement;
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        modalVideo.requestFullscreen().catch(err => console.log(err));
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    // Optional autoplay
+    modalVideo.play().catch(e => console.log("Autoplay may be blocked by browser:", e));
 
     // Initialize the page when loaded
     window.addEventListener('DOMContentLoaded', initPage);
