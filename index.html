@@ -167,7 +167,17 @@
     .cast-card:hover .cast-name {
       color: var(--marvel-yellow);
     }
-  </style>
+  
+/* Fullscreen video support */
+video:fullscreen,
+video:-webkit-full-screen,
+video:-moz-full-screen {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}
+
+</style>
 </head>
 <body class="min-h-screen">
   <!-- Loading overlay -->
@@ -883,6 +893,20 @@
         modalVideo.pause();
       }
     });
+
+    
+// Fullscreen support for the expand button
+const fullscreenBtn = document.querySelector('.fa-expand');
+fullscreenBtn.parentElement.addEventListener('click', () => {
+  if (modalVideo.requestFullscreen) {
+    modalVideo.requestFullscreen();
+  } else if (modalVideo.webkitRequestFullscreen) { /* Safari */
+    modalVideo.webkitRequestFullscreen();
+  } else if (modalVideo.msRequestFullscreen) { /* IE11 */
+    modalVideo.msRequestFullscreen();
+  }
+});
+
 
     // Initialize the page when loaded
     window.addEventListener('DOMContentLoaded', initPage);
