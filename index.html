@@ -98,6 +98,31 @@
         width: 100%;
       }
     }
+  
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 2rem;
+        line-height: 2.5rem;
+      }
+      .hero-content {
+        padding: 1rem;
+      }
+      .hero-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .hero-buttons button {
+        width: 100%;
+      }
+      main.container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      #episodes {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
   </style>
 </head>
 <body class="min-h-screen">
