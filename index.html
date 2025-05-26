@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    /* Custom styles */
     :root {
       --marvel-red: #ed1d24;
       --marvel-yellow: #ffcc00;
@@ -27,6 +28,75 @@
       letter-spacing: 1px;
     }
     
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--marvel-yellow);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ffdd33;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    
+    .pulse-hover:hover {
+      animation: pulse 1.5s infinite;
+    }
+    
+    /* Glow effects */
+    .glow-effect {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .glow-effect:hover {
+      transform: translateY(-5px);
+    }
+    
+    .glow-effect::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0);
+      transition: box-shadow 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .glow-effect:hover::after {
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
+    }
+    
+    /* Gradient text */
     .gradient-text {
       background: linear-gradient(90deg, var(--marvel-yellow), #ff9900);
       -webkit-background-clip: text;
@@ -41,111 +111,88 @@
       color: transparent;
     }
     
-    .glow-effect:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
-    }
-    
-    .episode-card {
-      transition: all 0.3s ease;
-    }
-    
-    .episode-card:hover {
-      transform: translateY(-5px);
-    }
-    
-    .video-container {
-      position: relative;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
-      height: 0;
-      overflow: hidden;
-    }
-    
-    .video-container iframe,
-    .video-container video {
+    /* Episode card numbering */
+    .episode-number {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: -10px;
+      left: -10px;
+      background: var(--marvel-red);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      z-index: 10;
     }
     
-    @media (max-width: 768px) {
-      .hero-content {
-        padding: 1rem;
-      }
-      .hero-title {
-        font-size: 2.5rem;
-      }
-      .cast-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    /* Loading spinner */
+    .loader {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 4px solid var(--marvel-yellow);
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
     }
     
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Responsive adjustments */
     @media (max-width: 640px) {
-      .header-logo {
-        flex-direction: column;
-        align-items: flex-start;
+      .movie-card {
+        width: calc(50% - 1rem);
       }
-      .header-actions {
-        margin-top: 1rem;
-      }
-      .hero-buttons {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .hero-buttons button {
+    }
+    
+    @media (max-width: 400px) {
+      .movie-card {
         width: 100%;
       }
     }
-  
-    @media (max-width: 480px) {
-      .hero-title {
-        font-size: 2rem;
-        line-height: 2.5rem;
-      }
-      .hero-content {
-        padding: 1rem;
-      }
-      .hero-buttons {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .hero-buttons button {
-        width: 100%;
-      }
-      main.container {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-      }
-      #episodes {
-        grid-template-columns: 1fr !important;
-      }
+    
+    /* Video player controls */
+    .video-controls {
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
     }
-
+    
+    /* Cast member cards */
+    .cast-card:hover .cast-name {
+      color: var(--marvel-yellow);
+    }
   </style>
 </head>
 <body class="min-h-screen">
   <!-- Loading overlay -->
   <div id="loading-overlay" class="fixed inset-0 bg-black z-50 flex items-center justify-center">
-    <div class="w-10 h-10 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+    <div class="loader"></div>
   </div>
 
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-black bg-opacity-90 backdrop-blur-sm border-b border-yellow-600/20 shadow-lg">
-    <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
-      <div class="flex items-center space-x-3 header-logo">
-        <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center shadow-lg hover:animate-pulse">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center shadow-lg pulse-hover">
           <i class="fas fa-shield-alt text-white text-xl"></i>
         </div>
-        <h1 class="text-2xl md:text-3xl font-bold red-gradient-text title-font">X-MEN '97</h1>
+        <h1 class="text-3xl font-bold red-gradient-text title-font">X-MEN '97</h1>
       </div>
       
-      <div class="flex items-center space-x-4 header-actions mt-2 md:mt-0">
-        <button id="search-btn" class="p-2 rounded-full hover:bg-gray-800 transition">
+      <div class="flex items-center space-x-4">
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-800 transition transform hover:scale-110">
+          <i class="fas fa-moon text-yellow-500 text-lg"></i>
+        </button>
+        <button id="search-btn" class="p-2 rounded-full hover:bg-gray-800 transition transform hover:scale-110">
           <i class="fas fa-search text-yellow-500 text-lg"></i>
         </button>
-        <button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full transition flex items-center">
+        <button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full transition transform hover:scale-105 flex items-center">
           <i class="fas fa-user mr-2"></i> Sign In
         </button>
       </div>
@@ -167,34 +214,41 @@
   <!-- Main Content -->
   <main class="container mx-auto px-4 py-8">
     <!-- Hero Section -->
-    <section class="mb-12 relative rounded-xl shadow-2xl overflow-hidden">
+    <section class="mb-12 relative overflow-hidden rounded-xl shadow-2xl">
       <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent z-10"></div>
       <img src="https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/5168/1708448275168-i" 
            alt="X-Men '97 Banner" class="w-full h-64 md:h-[32rem] object-cover object-top">
-      <div class="absolute bottom-0 left-0 z-20 p-4 md:p-8 lg:p-12 hero-content">
+      <div class="absolute bottom-0 left-0 z-20 p-6 md:p-8 lg:p-12">
         <div class="flex items-center mb-3">
           <span class="bg-yellow-600 text-black text-xs font-bold px-2 py-1 rounded mr-3">NEW EPISODES</span>
           <span class="text-gray-300 text-sm">Season 1 • 2024 • TV-14</span>
         </div>
-        <h2 class="text-3xl md:text-6xl font-bold mb-3 gradient-text title-font tracking-wide hero-title">X-MEN '97</h2>
+        <h2 class="text-4xl md:text-6xl font-bold mb-3 gradient-text title-font tracking-wide">X-MEN '97</h2>
         <p class="text-gray-300 mb-5 max-w-2xl text-sm md:text-base">The iconic X-Men animated series returns! A band of mutants use their uncanny gifts to protect a world that hates and fears them, challenged like never before as they face a dangerous and unexpected new future.</p>
-        <div class="flex flex-wrap gap-3 hero-buttons">
-          <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-6 rounded-full transition flex items-center">
+        <div class="flex flex-wrap gap-3">
+          <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-6 rounded-full transition flex items-center transform hover:scale-105">
             <i class="fas fa-play mr-2"></i> Play All
           </button>
-          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center">
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center transform hover:scale-105">
             <i class="fas fa-info-circle mr-2"></i> Details
           </button>
-          <button class="bg-transparent border border-gray-600 hover:border-yellow-500 text-white font-semibold py-2 px-6 rounded-full transition flex items-center">
+          <button class="bg-transparent border border-gray-600 hover:border-yellow-500 text-white font-semibold py-2 px-6 rounded-full transition flex items-center transform hover:scale-105">
             <i class="fas fa-plus mr-2"></i> Watchlist
+          </button>
+          <button class="bg-transparent border border-gray-600 hover:border-yellow-500 text-white font-semibold py-2 px-6 rounded-full transition flex items-center transform hover:scale-105">
+            <i class="fas fa-share-alt mr-2"></i> Share
           </button>
         </div>
       </div>
+      <div class="absolute top-4 right-4 z-20">
+        <button class="bg-black/70 hover:bg-black text-white p-3 rounded-full transition">
+          <i class="fas fa-volume-up text-yellow-500"></i>
+        </button>
+      </div>
     </section>
 
-   
-        
+
         
 
     <!-- Episodes Section -->
@@ -205,13 +259,14 @@
           Season 1 Episodes
         </h3>
         
-        <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-4 md:mt-0">
+        <div class="flex items-center space-x-4 mt-4 md:mt-0">
           <div class="flex items-center space-x-2">
             <span class="text-gray-400 text-sm">Filter:</span>
             <select class="bg-gray-900 border border-gray-700 text-white text-sm rounded-full px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-yellow-500">
               <option>All Episodes</option>
               <option>Watched</option>
               <option>Unwatched</option>
+              <option>Favorites</option>
             </select>
           </div>
           
@@ -221,6 +276,7 @@
               <option>Release Date</option>
               <option>Episode Order</option>
               <option>Popularity</option>
+              <option>Duration</option>
             </select>
           </div>
         </div>
@@ -229,11 +285,11 @@
       <div id="episodes" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <!-- Episodes will be inserted here by JavaScript -->
       </div>
-    </section>
-  </main>
+      
+
 
   <!-- Footer -->
-  <footer class="bg-gray-900 border-t border-gray-800 py-8">
+  <footer class="bg-gray-900 border-t border-gray-800 py-12">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <div>
@@ -252,6 +308,8 @@
             <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition text-sm">Home</a></li>
             <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition text-sm">Episodes</a></li>
             <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition text-sm">Characters</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition text-sm">Gallery</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition text-sm">About</a></li>
           </ul>
         </div>
         
@@ -260,12 +318,18 @@
           <ul class="space-y-2">
             <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition text-sm">Terms of Use</a></li>
             <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition text-sm">Privacy Policy</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition text-sm">Cookie Policy</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition text-sm">Interest-Based Ads</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition text-sm">Help</a></li>
           </ul>
         </div>
         
         <div>
           <h4 class="text-white font-bold mb-4">Connect With Us</h4>
           <div class="flex space-x-4 mb-4">
+            <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-yellow-500 transition">
+              <i class="fab fa-facebook-f"></i>
+            </a>
             <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-yellow-500 transition">
               <i class="fab fa-twitter"></i>
             </a>
@@ -276,6 +340,13 @@
               <i class="fab fa-youtube"></i>
             </a>
           </div>
+          <p class="text-gray-400 text-sm">Subscribe to our newsletter for updates:</p>
+          <div class="mt-2 flex">
+            <input type="email" placeholder="Your email" class="bg-gray-800 text-white text-sm px-3 py-2 rounded-l focus:outline-none focus:ring-1 focus:ring-yellow-500 w-full">
+            <button class="bg-yellow-600 hover:bg-yellow-700 text-black px-3 py-2 rounded-r text-sm font-medium">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
         </div>
       </div>
       
@@ -285,42 +356,114 @@
     </div>
   </footer>
 
-  <!-- Video Player Modal -->
-  <div id="video-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90 backdrop-blur-sm p-4">
-    <div class="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden shadow-2xl">
-      <button id="close-video-modal" class="absolute top-4 right-4 z-50 bg-black/70 hover:bg-black text-white w-10 h-10 rounded-full flex items-center justify-center transition">
+  <!-- Playback Modal -->
+  <div id="playback-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-90 backdrop-blur-sm">
+    <div class="relative w-full max-w-5xl bg-gray-900 rounded-xl overflow-hidden shadow-2xl">
+      <button id="close-modal" class="absolute top-4 right-4 z-50 bg-black/70 hover:bg-black text-white w-10 h-10 rounded-full flex items-center justify-center transition transform hover:scale-110">
         <i class="fas fa-times text-xl"></i>
       </button>
       
-      <div class="video-container">
-        <video id="modal-video" class="w-full" controls>
+      <div class="aspect-w-16 aspect-h-9 relative">
+        <video id="modal-video" class="w-full" poster="https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/5168/1708448275168-i" controls>
           Your browser does not support the video tag.
         </video>
+        
+        <div id="video-loading" class="absolute inset-0 bg-black/70 flex items-center justify-center">
+          <div class="loader"></div>
+        </div>
+        
+        <div class="video-controls absolute bottom-0 left-0 right-0 p-4 flex justify-between items-center">
+          <div class="flex items-center space-x-4">
+            <button id="play-pause" class="bg-yellow-600 hover:bg-yellow-700 text-black w-10 h-10 rounded-full flex items-center justify-center transition">
+              <i class="fas fa-play"></i>
+            </button>
+            <div class="text-white text-sm">
+              <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+            </div>
+          </div>
+          
+          <div class="flex items-center space-x-3">
+            <button class="text-white hover:text-yellow-500 transition">
+              <i class="fas fa-closed-captioning"></i>
+            </button>
+            <button class="text-white hover:text-yellow-500 transition">
+              <i class="fas fa-cog"></i>
+            </button>
+            <button class="text-white hover:text-yellow-500 transition">
+              <i class="fas fa-expand"></i>
+            </button>
+          </div>
+        </div>
       </div>
       
-      <div class="p-4 md:p-6">
-        <h3 id="video-title" class="text-xl md:text-2xl font-bold mb-2 gradient-text"></h3>
-        <div class="flex items-center text-gray-400 text-sm mb-4">
-          <span class="mr-4">S1 • E<span id="video-episode-num"></span></span>
-          <span id="video-duration" class="mr-4"></span>
-          <span><i class="fas fa-star text-yellow-500 mr-1"></i> <span id="video-rating"></span></span>
-        </div>
-        <p id="video-description" class="text-gray-300 mb-4"></p>
-        
-        <div class="flex flex-wrap gap-3">
-          <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-4 rounded-full transition flex items-center text-sm">
-            <i class="fas fa-play mr-2"></i> Play
-          </button>
-          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-full transition flex items-center text-sm">
-            <i class="fas fa-plus mr-2"></i> Watchlist
-          </button>
+      <div class="p-6 md:p-8">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="md:w-2/3">
+            <h3 id="modal-title" class="text-2xl md:text-3xl font-bold mb-2 gradient-text"></h3>
+            <div class="flex items-center text-gray-400 text-sm mb-4">
+              <span class="mr-4">S1 • E<span id="episode-num"></span></span>
+              <span class="mr-4"><i class="fas fa-star text-yellow-500 mr-1"></i> 4.8</span>
+              <span id="modal-duration">45 min</span>
+            </div>
+            <p id="modal-description" class="text-gray-300 mb-6"></p>
+            
+            <div class="flex flex-wrap gap-3 mb-6">
+              <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-6 rounded-full transition flex items-center transform hover:scale-105">
+                <i class="fas fa-play mr-2"></i> Play
+              </button>
+              <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center transform hover:scale-105">
+                <i class="fas fa-plus mr-2"></i> Watchlist
+              </button>
+              <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center transform hover:scale-105">
+                <i class="fas fa-download mr-2"></i> Download
+              </button>
+              <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center transform hover:scale-105">
+                <i class="fas fa-share-alt mr-2"></i> Share
+              </button>
+            </div>
+          </div>
+          
+          <div class="md:w-1/3">
+            <h4 class="text-lg font-semibold mb-3 text-white">Cast & Crew</h4>
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-gray-800 overflow-hidden mr-3">
+                  <img src="https://m.media-amazon.com/images/M/MV5BMTU4OTY2Njg2MV5BMl5BanBnXkFtZTgwMDYzNzAxNjE@._V1_.jpg" alt="Ray Chase" class="w-full h-full object-cover">
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-white">Ray Chase</p>
+                  <p class="text-xs text-gray-400">Cyclops</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-gray-800 overflow-hidden mr-3">
+                  <img src="https://m.media-amazon.com/images/M/MV5BMTQ1NDQ0NTE3MV5BMl5BanBnXkFtZTcwMjAyOTU1OA@@._V1_.jpg" alt="Jennifer Hale" class="w-full h-full object-cover">
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-white">Jennifer Hale</p>
+                  <p class="text-xs text-gray-400">Jean Grey</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-gray-800 overflow-hidden mr-3">
+                  <img src="https://m.media-amazon.com/images/M/MV5BMTQ5NjY0NjYwOF5BMl5BanBnXkFtZTcwOTQyODU1Mw@@._V1_.jpg" alt="Lenore Zann" class="w-full h-full object-cover">
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-white">Lenore Zann</p>
+                  <p class="text-xs text-gray-400">Rogue</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Episode data
+    // Movie data
     const episodes = [
       { 
         title: "To Me, My X-Men", 
@@ -366,92 +509,168 @@
         duration: "47 min",
         rating: 5.0,
         releaseDate: "April 17, 2024"
-      }
+      },
+      { 
+        title: "Lifedeath - Part 2", 
+        video: "https://macdn.hakunaymatata.com/resource/c107dc6e192013806e450170dd05e9cd.mp4?Expires=1749465703&Signature=m0nCQyTIWGdk9VvyQQBL1y3hJcPRWCxCTTjCleQr-5WG1MVlWmF91weO6EqN2Th-o4oMrZGmC4DHb8w8KtVxr1JbE6-ZhKWPHWldP6MHJ0mnNyBkfGX5jhBCVxxqg67-Z8QSMR5wgzPve4PxhaN6g6CAsJ9YZ5W37n2BahFBtzWV-08a5znMIo1Y-zmFuLYg~KqiIkVNOZAjpVMRl~7prjL6~ecpIbkRBMYoRVsqvMiJOWK3igkwYsSc0lGRz8KCcDHssf4MsWufIR5Ja7wCWthjpmdboQBpYkJ2l1OtC1~BmVcAzpNs~yHhgjmBlHuAOO9YI2KtL1I0ndkFVyB3hg__&Key-Pair-Id=KMHN1LQ1HEUPL",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/8235/1713333688235-h",
+        description: "Storm is forced to face her worst fears in order to free herself from a mysterious predicament. Her journey of self-discovery takes her to unexpected places as she confronts what it truly means to be a mutant and a leader.",
+        duration: "58 min",
+        rating: 4.8,
+        releaseDate: "April 24, 2024"
+      },
+      { 
+        title: "Bright Eyes", 
+        video: "https://macdn.hakunaymatata.com/resource/55244b5f52c2ee442ee691332978d3c5.mp4?Expires=1749470269&Signature=ueCS4yAG1p-dOGuNqD02ZHjyYGEIC8Y-i-3rOPSYqbAGvXq~ygqS4ZiAsT58-sCgXtJ4f7kZiPFwYAGQp-2TNM3jRhmDlYlo7zfHUEweQPTxnWX8YkNxX3irFE2R0k-XLuY0fMmcdTrnQwTZmY-XLhZ~RqOHiLp6HIP6~Ink9rEYesAhroIngTLLHhu8rtWRZzDuE2Owy7oivTeyif2pYV9j7-qpm07IhfQDKJowX6dWm3gYNoj699ugAqfWI20MF3Kb-6veTHPQPZzgimMFx~Zzyd1pNCaU218oUddoI04NA98L2fLjQvavLCQq9QvPhMsZaAL2VL~ihrWksNjJSA__&Key-Pair-Id=KMHN1LQ1HEUPL", 
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/8480/1713934968480-h",
+        description: "Cyclops focuses the X-Men on finding Bolivar Trask. However, when the team locates the Sentinel inventor, they realize that they all have been played by a mastermind with connections to their past and dire implications for their future.",
+        duration: "49 min",
+        rating: 4.9,
+        releaseDate: "May 1, 2024"
+      },
+      { 
+        title: "Tolerance Is Extinction - Part 1", 
+        video: "https://macdn.hakunaymatata.com/resource/f25e7116d7b661a1abda6289befd4244.mp4?Expires=1749470297&Signature=2FlI5AtnwSOBloyGX24KicdY9KXmV2l5qThAWzlOm4L2C-wjU7PjPCUbnl2o3Syj6dBNA4w9unalHJrS~4WnctDIuEYUxQSbdNrJWCoPOf~xHp5FFaEz0AKjrhmZ-~X8hYxTeIiHcwNqJpXLAtM~Mkvh3QSfKuOVpDf4aBoxbBbXPEwQtDnDmvK76ua9xaq-aWw-OeONFleuT1Zw3XK4qP5sKUrZfK-gWcaWXGv6XXvuXuOel-QseEbROjWBTlOPHasEMQU5k~-XlzviqdW43jOoccSfzcY67Z1Xy1bbPD78l0abS~Tkf3Z-7hPO~fpMfi471Ji5d0XsywVuceSlEQ__&Key-Pair-Id=KMHN1LQ1HEUPL", 
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/7150/1714543097150-h",
+        description: "The X-Men must unite to face a new threat that could change the course of mutant-human relations forever. As old enemies return and alliances shift, the team finds themselves in their most dangerous battle yet.",
+        duration: "51 min",
+        rating: 4.7,
+        releaseDate: "May 8, 2024"
+      },
+      { 
+        title: "Tolerance Is Extinction - Part 2", 
+        video: "https://macdn.hakunaymatata.com/resource/dfd9da215e8a18ff62f3dcd7e4f1e427.mp4?Expires=1749470349&Signature=GEbUnwvnqLuA6c5~jMNWzpqR5KeEHLamdVEOlXvpha-9N906FW7Zf3T6G-wyj-6IeXd4JQ8Q6Xc~V05fb4QuC~uGyaZXeF8tkngV2cEGRVLwNcVphTnEjL0wGH4h7suqx6BIMAV~WjsgHvoEvEPGBluReaFZKrCHzhroVymK-NQAldBLCybbxFQnCtFEAFDDwHxZ~lXtRHI0KxzcBWPO8XhYChL7TUeOdiQrOsJtfwD5Cl3Ve4WmW9Tthpix1bzjDjjFNWzttQoFNs4loirMB15EQoBXth6n1HvzjZZsZ9x6gqP4ISxnwF1Y6dA~kyZDvAdKHgKGN6Rd2Nwu8To-3Q__&Key-Pair-Id=KMHN1LQ1HEUPL", 
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/775/1715149110775-h",
+        description: "The X-Men work to settle the score before it is too late as the conflict reaches its peak. With the fate of mutantkind hanging in the balance, difficult choices must be made that will change the team forever.",
+        duration: "47 min",
+        rating: 4.9,
+        releaseDate: "May 15, 2024"
+      },
+      { 
+        title: "Tolerance Is Extinction - Part 3", 
+        video: "https://macdn.hakunaymatata.com/resource/857c9d5f13fc49f0fbec6678601e8235.mp4?Expires=1749465827&Signature=hZGbWPE3cbFfOHE6TaZa8cqewQJE2B8ovpq7lHfhS9paoqTBl2bJTijphdl-FP2WpyhjwLjTiPg0ScWlf-dmlAV--ObwP67E9FqrwqLi5R8LpSCI5TGvVBod9OrTp1kqN5vVMmFWEaEHkm1upfhn9YswNYGF4E50YbcubFzt3tLYKGNEVNpjhYfShELbDBk4UfCwoc-NMtvq~C0nA-4C7~LNoy2thLgJ8c7jPQUPt0ZZ2lazwuzdH6wKdYLet2aYo-7ij1mEMVKfnitbx3lhgChtgTWq6LMglZjbLzOoFaNS6xA6n~hzMkD9EbUdltxNQQvBhyy~aj4cUeXMi3vsVw__&Key-Pair-Id=KMHN1LQ1HEUPL",
+        image: "https://img10.hotstar.com/image/upload/f_auto/sources/r1/cms/prod/3293/1715363523293-h",
+        description: "The X-Men's dream is put to the test as mutant-human relations reach a tipping point. In this explosive season finale, the team must make their final stand against overwhelming odds, leading to shocking revelations and consequences.",
+        duration: "58 min",
+        rating: 5.0,
+        releaseDate: "May 22, 2024"
+      },
     ];
 
     // DOM elements
     const container = document.getElementById('episodes');
     const searchBtn = document.getElementById('search-btn');
     const searchBar = document.getElementById('search-bar');
-    const videoModal = document.getElementById('video-modal');
-    const closeVideoModal = document.getElementById('close-video-modal');
+    const themeToggle = document.getElementById('theme-toggle');
+    const playbackModal = document.getElementById('playback-modal');
+    const closeModal = document.getElementById('close-modal');
     const modalVideo = document.getElementById('modal-video');
-    const videoTitle = document.getElementById('video-title');
-    const videoDescription = document.getElementById('video-description');
-    const videoEpisodeNum = document.getElementById('video-episode-num');
-    const videoDuration = document.getElementById('video-duration');
-    const videoRating = document.getElementById('video-rating');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const episodeNum = document.getElementById('episode-num');
+    const modalDuration = document.getElementById('modal-duration');
     const loadingOverlay = document.getElementById('loading-overlay');
+    const videoLoading = document.getElementById('video-loading');
+    const playPauseBtn = document.getElementById('play-pause');
+    const currentTimeEl = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
 
     // Initialize the page
     function initPage() {
       // Simulate loading
       setTimeout(() => {
         loadingOverlay.classList.add('hidden');
-      }, 800);
+      }, 1000);
       
       // Create episode cards
       episodes.forEach((episode, index) => {
         const card = document.createElement('div');
-        card.className = `episode-card bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800 hover:border-yellow-500/50 transition-all duration-300`;
+        card.className = `episode-card fade-in delay-${index % 5} glow-effect relative`;
         card.innerHTML = `
-          <div class="relative group cursor-pointer" data-episode="${index}">
-            <div class="absolute top-3 left-3 bg-red-600 text-white text-sm font-bold rounded-full w-8 h-8 flex items-center justify-center z-10">
-              ${index + 1}
-            </div>
+          <div class="relative group overflow-hidden rounded-xl cursor-pointer">
+            <div class="episode-number">${index + 1}</div>
             <img src="${episode.image}" alt="${episode.title}" 
-                 class="w-full h-40 object-cover group-hover:opacity-80 transition-opacity">
-            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-              <div class="bg-yellow-600 text-black rounded-full w-12 h-12 flex items-center justify-center">
-                <i class="fas fa-play"></i>
+                 class="w-full h-48 sm:h-56 object-cover rounded-xl transition duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <div>
+                <h3 class="text-white font-semibold text-lg">${episode.title}</h3>
+                <div class="flex items-center text-gray-300 text-sm mt-1">
+                  <span><i class="fas fa-star text-yellow-500 mr-1"></i> ${episode.rating}</span>
+                  <span class="mx-2">•</span>
+                  <span>${episode.duration}</span>
+                </div>
               </div>
             </div>
+            <div class="absolute top-3 right-3 bg-black bg-opacity-70 text-yellow-500 rounded-full w-10 h-10 flex items-center justify-center">
+              <i class="fas fa-play"></i>
+            </div>
           </div>
-          <div class="p-4">
-            <h3 class="text-white font-semibold mb-1">${episode.title}</h3>
-            <div class="flex items-center text-gray-400 text-sm mb-2">
+          <div class="mt-3">
+            <h3 class="text-white font-medium">${episode.title}</h3>
+            <div class="flex items-center text-gray-400 text-sm mt-1">
               <span>S1 • E${index + 1}</span>
               <span class="mx-2">•</span>
               <span>${episode.duration}</span>
             </div>
-            <p class="text-gray-400 text-xs line-clamp-2 mb-3">${episode.description}</p>
-            <div class="flex items-center justify-between">
+            <p class="text-gray-400 text-xs mt-2 line-clamp-2">${episode.description}</p>
+            <div class="flex items-center justify-between mt-3">
               <span class="text-gray-500 text-xs">${episode.releaseDate}</span>
-              <div class="flex items-center text-yellow-500 text-sm">
-                <i class="fas fa-star mr-1"></i>
-                <span>${episode.rating}</span>
-              </div>
+              <button class="text-yellow-500 hover:text-yellow-400 text-sm font-medium">
+                <i class="far fa-bookmark mr-1"></i> Save
+              </button>
             </div>
           </div>
         `;
         
-        card.querySelector('.group').addEventListener('click', () => {
-          openVideoModal(episode, index + 1);
+        card.addEventListener('click', () => {
+          openModal(episode, index + 1);
         });
         
         container.appendChild(card);
       });
     }
 
-    // Open video modal
-    function openVideoModal(episode, episodeNumber) {
-      videoTitle.textContent = episode.title;
-      videoDescription.textContent = episode.description;
-      videoEpisodeNum.textContent = episodeNumber;
-      videoDuration.textContent = episode.duration;
-      videoRating.textContent = episode.rating;
-      
+    // Open modal with episode details
+    function openModal(episode, episodeNumber) {
+      modalTitle.textContent = episode.title;
+      modalDescription.textContent = episode.description;
+      episodeNum.textContent = episodeNumber;
+      modalDuration.textContent = episode.duration;
       modalVideo.src = episode.video;
-      videoModal.classList.remove('hidden');
+      
+      playbackModal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
       
-      // Play video when modal opens
-      modalVideo.play().catch(e => console.log("Autoplay prevented:", e));
+      // Show loading spinner for video
+      videoLoading.classList.remove('hidden');
+      
+      modalVideo.addEventListener('loadedmetadata', () => {
+        videoLoading.classList.add('hidden');
+        const duration = modalVideo.duration;
+        const minutes = Math.floor(duration / 60);
+        const seconds = Math.floor(duration % 60);
+        durationEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      });
+      
+      modalVideo.addEventListener('timeupdate', () => {
+        const currentTime = modalVideo.currentTime;
+        const minutes = Math.floor(currentTime / 60);
+        const seconds = Math.floor(currentTime % 60);
+        currentTimeEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      });
+      
+      modalVideo.addEventListener('play', () => {
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      });
+      
+      modalVideo.addEventListener('pause', () => {
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+      });
     }
 
-    // Close video modal
-    function closeVideoModalHandler() {
-      videoModal.classList.add('hidden');
+    // Close modal
+    function closeModalHandler() {
+      playbackModal.classList.add('hidden');
       modalVideo.pause();
       document.body.style.overflow = '';
     }
@@ -461,15 +680,32 @@
       searchBar.classList.toggle('hidden');
     });
 
-    closeVideoModal.addEventListener('click', closeVideoModalHandler);
-    videoModal.addEventListener('click', function(e) {
-      if (e.target === this) closeVideoModalHandler();
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('bg-gray-100');
+      document.body.classList.toggle('text-gray-900');
+      document.body.classList.toggle('bg-black');
+      document.body.classList.toggle('text-gray-100');
+      
+      const icon = themeToggle.querySelector('i');
+      if (document.body.classList.contains('bg-black')) {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      } else {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
     });
 
-    // Close modal when pressing Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !videoModal.classList.contains('hidden')) {
-        closeVideoModalHandler();
+    closeModal.addEventListener('click', closeModalHandler);
+    playbackModal.addEventListener('click', function(e) {
+      if (e.target === this) closeModalHandler();
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+      if (modalVideo.paused) {
+        modalVideo.play();
+      } else {
+        modalVideo.pause();
       }
     });
 
