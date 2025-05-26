@@ -352,10 +352,10 @@
             <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-yellow-500 transition">
               <i class="fab fa-twitter"></i>
             </a>
-            <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-yellow-500 transition">
+            <a href="https://www.instagram.com/jarfri3000/" class="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-yellow-500 transition">
               <i class="fab fa-instagram"></i>
             </a>
-            <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-yellow-500 transition">
+            <a href="https://www.youtube.com/@TonyStark-q8t" class="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-yellow-500 transition">
               <i class="fab fa-youtube"></i>
             </a>
           </div>
@@ -727,20 +727,6 @@
         modalVideo.pause();
       }
     });
-
-    
-    // Fullscreen button support
-    const fullscreenBtn = document.querySelector('.fa-expand').parentElement;
-    fullscreenBtn.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        modalVideo.requestFullscreen().catch(err => console.log(err));
-      } else {
-        document.exitFullscreen();
-      }
-    });
-
-    // Optional autoplay
-    modalVideo.play().catch(e => console.log("Autoplay may be blocked by browser:", e));
 
     // Initialize the page when loaded
     window.addEventListener('DOMContentLoaded', initPage);
